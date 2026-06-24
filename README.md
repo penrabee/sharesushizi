@@ -1,2 +1,2 @@
 # sharesushizi
-Sushi conveyor-belt spilt bill for everyone!
+Sushi conveyor-belt split bill for everyone!
