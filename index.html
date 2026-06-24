@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🍣 Sushi Split Bill</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-bar">
+      <div class="lang-toggle" role="group" aria-label="Language">
+        <button type="button" class="lang-btn" data-lang="th">TH</button>
+        <button type="button" class="lang-btn" data-lang="en">EN</button>
+      </div>
+      <button id="reset-btn" class="reset-btn" type="button" data-i18n="resetBtn">↺ Reset</button>
+    </div>
+    <h1 data-i18n="title">🍣 Sushi Split Bill</h1>
+  </header>
+
+  <main class="container">
+
+    <!-- STEP 1: Diners -->
+    <section class="card step" id="step-diners">
+      <div class="step-head">
+        <span class="step-num">1</span>
+        <h2 data-i18n="step1Title">How many people?</h2>
+      </div>
+      <div class="row">
+        <label for="headcount" data-i18n="dinerCountLabel">Number of diners</label>
+        <div class="stepper">
+          <button type="button" class="step-btn" data-headcount="-1">−</button>
+          <input type="number" id="headcount" min="1" max="50" value="2" inputmode="numeric" />
+          <button type="button" class="step-btn" data-headcount="1">+</button>
+        </div>
+        <button type="button" id="set-people-btn" class="primary-btn" data-i18n="continueBtn">Continue</button>
+      </div>
+      <div id="people-list" class="people-list" hidden></div>
+    </section>
+
+    <!-- STEP 2: Restaurant -->
+    <section class="card step" id="step-restaurant" hidden>
+      <div class="step-head">
+        <span class="step-num">2</span>
+        <h2 data-i18n="step2Title">Choose a restaurant</h2>
+      </div>
+      <div id="restaurant-options" class="restaurant-options"></div>
+    </section>
+
+    <!-- STEP 3: Plates -->
+    <section class="card step" id="step-plates" hidden>
+      <div class="step-head">
+        <span class="step-num">3</span>
+        <h2 data-i18n="step3Title">Tally the plates</h2>
+      </div>
+      <p class="hint" data-i18n="step3Hint">These plates are split equally among everyone. Use the qty field to fix a misclick.</p>
+      <div id="plate-grid" class="plate-grid"></div>
+
+      <details class="custom-plate">
+        <summary data-i18n="addCustomPlate">➕ Add a custom plate</summary>
+        <div class="custom-plate-form">
+          <input type="text" id="cp-name" data-i18n-ph="cpNamePh" placeholder="Plate name (e.g. Purple)" />
+          <input type="number" id="cp-price" data-i18n-ph="cpPricePh" placeholder="Price (THB)" min="0" step="1" inputmode="numeric" />
+          <div id="cp-swatches" class="swatch-row" aria-label="Plate color"></div>
+          <label class="more-colors">
+            <span data-i18n="moreColors">More colors</span>
+            <input type="color" id="cp-color" value="#d32f2f" />
+          </label>
+          <button type="button" id="cp-add" class="primary-btn" data-i18n="cpAdd">Add</button>
+        </div>
+      </details>
+    </section>
+
+    <!-- STEP 4: Specific assignments -->
+    <section class="card step" id="step-assign" hidden>
+      <div class="step-head">
+        <span class="step-num">4</span>
+        <h2><span data-i18n="step4Title">Plates only some people ate</span> <span class="optional" data-i18n="optional">(optional)</span></h2>
+      </div>
+      <p class="hint" data-i18n="step4Hint">Example: If Person 1 ate two 100-THB plates and Person 2 ate none — assign those plates only to Person 1.</p>
+      <div id="assign-list" class="assign-list"></div>
+      <button type="button" id="add-assign-btn" class="secondary-btn" data-i18n="addAssignBtn">➕ Assign plates to specific people</button>
+    </section>
+
+    <!-- STEP 5: Options + Results -->
+    <section class="card step" id="step-result" hidden>
+      <div class="step-head">
+        <span class="step-num">5</span>
+        <h2 data-i18n="step5Title">The split</h2>
+      </div>
+      <div class="options">
+        <label class="check">
+          <input type="checkbox" id="opt-service" /> <span data-i18n="optService">Include service charge 10%</span>
+        </label>
+        <label class="check">
+          <input type="checkbox" id="opt-vat" /> <span data-i18n="optVat">Include VAT 7%</span>
+        </label>
+      </div>
+      <div id="results"></div>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <span data-i18n="footerNote">Prices are illustrative. Verify against your actual receipt.</span>
+  </footer>
+
+  <!-- Custom confirm modal -->
+  <div id="modal" class="modal-overlay" hidden>
+    <div class="modal-box" role="dialog" aria-modal="true">
+      <h3 data-i18n="modalTitle">Start over?</h3>
+      <p data-i18n="modalBody">This clears all diners and plates.</p>
+      <div class="modal-actions">
+        <button type="button" id="modal-cancel" class="secondary-btn" data-i18n="modalCancel">Cancel</button>
+        <button type="button" id="modal-confirm" class="danger-btn" data-i18n="modalConfirm">Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
